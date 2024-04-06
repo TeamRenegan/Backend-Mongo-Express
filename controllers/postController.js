@@ -9,24 +9,25 @@ exports.createPost = async (req, res) => {
     console.log(req.body);
     console.log(req.files);
         console.log(req.files);
-    const image = req.files[0];
+    const img = req.files[0];
     console.log('printing req files',req.files[0]);
     let imglink  = null;
 
-    if(image){
+    if(img){
         console.log("Img exists");
-        if (image.size > 5 * 1024 * 1024) {
+        if (img.size > 5 * 1024 * 1024) {
             return res
               .status(400)
               .send({ message: "File size too large, max 5MB allowed" });
           }
-          imglink = await addImage(image);
+          imglink = await addImage(img);
           console.log("camlink returned ",imglink);
     }
 
-    let imgupld = imglink;
+    let image = imglink;
 
-    const newPost = new Post({ name, title, description, imgupld });
+    const newPost = new Post({ name, title, description, image });
+    console.log(newPost);
     const savedPost = await newPost.save();
     res.status(201).json(savedPost);
   } catch (error) {
@@ -120,6 +121,16 @@ exports.searchPostsByDate = async (req, res) => {
       res.status(200).json(posts);
     } catch (error) {
       res.status(500).json({ message: error.message });
+    }
+  };
+  
+
+  exports.getTitlesAndDescriptions = async (req, res) => {
+    try {
+      const data = await Post.find({}).select("title description -_id");
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching titles and descriptions", error: error.message });
     }
   };
   

@@ -16,6 +16,8 @@ const router = express.Router();
 // Route for getting all posts
 router.get('/', postController.getPosts);
 
+router.get('/title/desc',postController.getTitlesAndDescriptions);
+
 // Route for creating a new post
 router.post('/', upload, postController.createPost);
 
@@ -31,6 +33,5 @@ router.delete('/:id', postController.deletePostById);
 router.get('/search/date', postController.searchPostsByDate);
 router.get('/search/name', postController.searchPostsByName);
 router.get('/search/title', postController.searchPostsByTitle);
-
 
 module.exports = router;
