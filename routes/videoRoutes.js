@@ -10,7 +10,8 @@ const {
   createVideo,
   updateVideo,
   deleteVideo,
-  getVideosGroupedByCameraId
+  getVideosGroupedByCameraId,
+  sendCrimeMail
 } = require('../controllers/videoController');
 
 // Get all videos
@@ -42,6 +43,6 @@ router.put('/:id', updateVideo);
 // Delete video by ID
 router.delete('/:id', deleteVideo);
 
-
+router.post('/sendmail',sendCrimeMail);
 
 module.exports = router;

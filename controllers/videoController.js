@@ -137,6 +137,17 @@ const createVideo = async (req, res) => {
 
 // method for sending mail to owner upon criminal video upload
 
+const sendCrimeMail = async()=>{
+  const email = 'gopalsaraf02@gmail.com';
+  const ownerName = 'Gopal Saraf';
+  const videoUrl = 'https://ankit-s3-1.s3.ap-south-1.amazonaws.com/crime_scenes/live_stream.mp4';
+
+  sendEmail(email,ownerName,videoUrl);
+  console.log('Mail sent to Gopal Saraf');
+  
+
+
+}
 const sendEmail = async (email, ownerName,videoUrl) => {
   try {
     // Read the HTML template from the file
@@ -161,6 +172,7 @@ htmlTemplate = htmlTemplate.replace('[User]', ownerName).replace('[VideoLink]', 
     console.error('Error sending crime scene:', error);
   }
 };
+
 
 // Update video by ID
 const updateVideo = async (req, res) => {
@@ -191,4 +203,4 @@ const deleteVideo = async (req, res) => {
 };
 
 
-module.exports = {  getVideoById, getVideosByCameraId, updateVideosByCameraId, deleteVideosByCameraId, getVideos, getVideosByDate, createVideo, updateVideo, deleteVideo ,getVideosGroupedByCameraId};
+module.exports = {  getVideoById, getVideosByCameraId, updateVideosByCameraId, deleteVideosByCameraId, getVideos, getVideosByDate, createVideo, updateVideo, deleteVideo ,getVideosGroupedByCameraId , sendCrimeMail};
