@@ -34,8 +34,7 @@ router.get('/search/date', postController.searchPostsByDate);
 router.get('/search/name', postController.searchPostsByName);
 router.get('/search/title', postController.searchPostsByTitle);
 
-<<<<<<< HEAD
 module.exports = router;
-=======
+
 module.exports = router;
->>>>>>> 6c4686c99f7aaf71b75f7e7a56e1708fe8daa4d4
+
