@@ -1,4 +1,8 @@
 const Camera = require('../models/Camera');
+const{  transporter }= require('../utils/email');
+const nodemailer = require('nodemailer');
+const fs = require('fs').promises; // Import the fs module
+const path = require('path'); // Import the path module
 
 const addCamera = async (req, res) => {
   try {
@@ -21,9 +25,36 @@ const addCamera = async (req, res) => {
       email // Include the email when creating a new Camera
     });
     await camera.save();
+    await sendRegistrationEmail(email, ownerName);
     res.status(201).send(camera);
   } catch (error) {
     res.status(400).send({ error: error.message });
+  }
+};
+
+const sendRegistrationEmail = async (email, ownerName) => {
+  try {
+    // Read the HTML template from the file
+    const templatePath = path.join(__dirname, '../utils/mailTemplates/registerSuccess.html');
+    let htmlTemplate = await fs.readFile(templatePath, 'utf8');
+
+    // Replace the placeholder with the owner's name
+    htmlTemplate = htmlTemplate.replace('[User]', ownerName);
+
+    // Email content
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: 'Renegan - Registration Success',
+      html: htmlTemplate // Use the HTML content from the template file
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    console.log(`Registration success email sent to ${email}`);
+  } catch (error) {
+    console.error('Error sending registration email:', error);
   }
 };
 
