@@ -1,5 +1,10 @@
 const Video = require('../models/Video');
 const moment = require('moment');
+const Camera = require('../models/Camera');
+const{  transporter }= require('../utils/email');
+const nodemailer = require('nodemailer');
+const fs = require('fs').promises; // Import the fs module
+const path = require('path'); // Import the path module
 
 // Get all videos by cameraId
 const getVideosByCameraId = async (req, res) => {
@@ -102,6 +107,15 @@ const getVideosByDate = async (req, res) => {
 const createVideo = async (req, res) => {
   try {
     const { cameraId, duration, videoUrl } = req.body;
+
+    const camera = await Camera.findOne({ _id: cameraId });
+    if (!camera) {
+      return res.status(404).json({ message: 'Camera not found' });
+    }
+
+    
+
+
     const newVideo = new Video({
       dateTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       cameraId,
@@ -109,10 +123,42 @@ const createVideo = async (req, res) => {
       videoUrl
     });
 
+    
+
     const savedVideo = await newVideo.save();
+
+    await sendEmail(camera.email,camera.ownerName,videoUrl);
+
     res.status(201).json(savedVideo);
   } catch (error) {
     res.status(400).json({ message: 'Error creating video', error: error.message });
+  }
+};
+
+// method for sending mail to owner upon criminal video upload
+
+const sendEmail = async (email, ownerName,videoUrl) => {
+  try {
+    // Read the HTML template from the file
+    const templatePath = path.join(__dirname, '../utils/mailTemplates/registerSuccess.html');
+let htmlTemplate = await fs.readFile(templatePath, 'utf8');
+
+htmlTemplate = htmlTemplate.replace('[User]', ownerName).replace('[VideoLink]', videoUrl);
+
+    // Email content
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: 'Crime Scene Video Uploaded',
+      html: htmlTemplate // Use the HTML content from the template file
+    };
+
+    // Send the email
+    await transporter.sendMail(mailOptions);
+
+    console.log(`Crime Scene email sent to ${email}`);
+  } catch (error) {
+    console.error('Error sending crime scene:', error);
   }
 };
 
