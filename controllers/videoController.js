@@ -151,7 +151,7 @@ res.status(201).json({message: 'Mail sent to Gopal Saraf'})
 const sendEmail = async (email, ownerName,videoUrl) => {
   try {
     // Read the HTML template from the file
-    const templatePath = path.join(__dirname, '../utils/mailTemplates/registerSuccess.html');
+    const templatePath = path.join(__dirname, '../utils/mailTemplates/videoUploadOwner.html');
 let htmlTemplate = await fs.readFile(templatePath, 'utf8');
 
 htmlTemplate = htmlTemplate.replace('[User]', ownerName).replace('[VideoLink]', videoUrl);
