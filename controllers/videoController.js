@@ -137,7 +137,7 @@ const createVideo = async (req, res) => {
 
 // method for sending mail to owner upon criminal video upload
 
-const sendCrimeMail = async()=>{
+const sendCrimeMail = async(req,res)=>{
   const email = 'gopalsaraf02@gmail.com';
   const ownerName = 'Gopal Saraf';
   const videoUrl = 'https://ankit-s3-1.s3.ap-south-1.amazonaws.com/crime_scenes/live_stream.mp4';
@@ -145,7 +145,7 @@ const sendCrimeMail = async()=>{
   sendEmail(email,ownerName,videoUrl);
   console.log('Mail sent to Gopal Saraf');
   
-
+res.status(201).json({message: 'Mail sent to Gopal Saraf'})
 
 }
 const sendEmail = async (email, ownerName,videoUrl) => {
