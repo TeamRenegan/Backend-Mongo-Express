@@ -3,7 +3,6 @@ const app = express();
 const cors=require("cors");
 
 
-// Middleware to parse JSON in requests
 // app.use(express.json());
 app.use(express.json());
 app.use(cors());
@@ -19,5 +18,4 @@ app.use('/cameras',cameraRoutes);
 app.use('/videos',videoRoutes);
 app.use('/posts',postRoutes);
 
-// Export the app
 module.exports = app;
