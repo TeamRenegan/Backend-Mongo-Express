@@ -37,7 +37,9 @@ The project is organized into directories and files as follows:
 
   - `email.js`
   - `awsS3upload.js`
+
     **mailTemplates** Contains mail templates
+
     - `registerSuccess.html`
     - `videoUploadOwner.html`
 
