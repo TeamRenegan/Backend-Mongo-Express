@@ -48,10 +48,3 @@ The project is organized into directories and files as follows:
 - **package-lock.json:** Lock file specifying exact versions of dependencies.
 - **package.json:** File containing project metadata and dependencies.
 
-## Setup and Installation
-
-1. Clone the repository:
-
-   ```bash
-   git clone <repository_URL>
-   ```
